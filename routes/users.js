@@ -2,11 +2,11 @@ const express = require('express');
 const routes = express.Router();
 const db = require('../db');
 
+// create
 routes.post('/', (req, res) => {
     const { nome, email, senha } = req.body;
     const query = 'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)';
 
-    // create
     db.query(query, [nome, email, senha], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao criar usuário' });
@@ -30,9 +30,8 @@ routes.get('/', (req, res) => {
 // update
 routes.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { nome, email } = req.body; // Removi a senha daqui para simplificar
+    const { nome, email, } = req.body;
 
-    // Corrigido para usar WHERE
     const query = 'UPDATE usuarios SET nome = ?, email = ? WHERE id = ?';
 
     db.query(query, [nome, email, id], (err, results) => {
