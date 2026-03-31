@@ -2,13 +2,68 @@ const express = require('express');
 const routes = express.Router();
 const db = require('../db');
 
-routes.get('/', (req, res) => {
-    db.query('SELECT * FROM users', (err, results) => {
+routes.post('/', (req, res) => {
+    const { nome, email, senha } = req.body;
+    const query = 'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)';
+
+    // create
+    db.query(query, [nome, email, senha], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Erro ao buscar usuários' });
-        } else {
-            res.json(results);
+            return res.status(500).json({ error: 'Erro ao criar usuário' });
         }
+        res.status(201).json({ id: results.insertId, nome, email });
+    });
+});
+
+
+// read
+routes.get('/', (req, res) => {
+    db.query('SELECT * FROM usuarios', (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erro ao buscar usuários' });
+        }
+        res.json(results);
+    });
+});
+
+
+// update
+routes.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const { nome, email } = req.body; // Removi a senha daqui para simplificar
+
+    // Corrigido para usar WHERE
+    const query = 'UPDATE usuarios SET nome = ?, email = ? WHERE id = ?';
+
+    db.query(query, [nome, email, id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erro ao atualizar informações' });
+        }
+
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        res.json({ message: 'Usuário atualizado com sucesso!' });
+    });
+});
+
+
+// delete
+routes.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM usuarios WHERE id = ?';
+
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erro ao deletar usuário' });
+        }
+
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        res.json({ message: 'Usuário deletado com sucesso!' });
     });
 });
 
