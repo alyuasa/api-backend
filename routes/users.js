@@ -2,8 +2,18 @@ const express = require('express');
 const routes = express.Router();
 const db = require('../db');
 
+// read em todos os usuários
+routes.get('/', (req, res) => {
+    db.query('SELECT * FROM usuarios', (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erro ao buscar usuários' });
+        }
+        res.json(results);
+    });
+});
+
 // create
-routes.post('/', (req, res) => {
+routes.post('/create', (req, res) => {
     const { nome, email, senha } = req.body;
     const query = 'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)';
 
@@ -16,23 +26,31 @@ routes.post('/', (req, res) => {
 });
 
 
-// read
-routes.get('/', (req, res) => {
-    db.query('SELECT * FROM usuarios', (err, results) => {
+// read usuário por id específico
+routes.get('/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM usuarios WHERE id = ?';
+
+    db.query(query, [id], (err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Erro ao buscar usuários' });
+            return res.status(500).json({ error: 'Erro ao buscar usuário' });
+        } else {
+            if (results.length === 0) {
+                res.status(404).json({ error: 'Usuário não encontrado' });
+            } else {
+                res.status(201).json(results[0]);
+            }
         }
-        res.json(results);
     });
 });
 
 
 // update
-routes.put('/:id', (req, res) => {
+routes.put('/edit/:id', (req, res) => {
     const { id } = req.params;
-    const { nome, email, } = req.body;
+    const { nome, email, senha } = req.body;
 
-    const query = 'UPDATE usuarios SET nome = ?, email = ? WHERE id = ?';
+    const query = 'UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?';
 
     db.query(query, [nome, email, id], (err, results) => {
         if (err) {
@@ -49,7 +67,7 @@ routes.put('/:id', (req, res) => {
 
 
 // delete
-routes.delete('/:id', (req, res) => {
+routes.delete('/delete/:id', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM usuarios WHERE id = ?';
 
