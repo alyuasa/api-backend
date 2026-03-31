@@ -29,7 +29,7 @@ routes.post('/create', (req, res) => {
 // read usuário por id específico
 routes.get('/:id', (req, res) => {
     const { id } = req.params;
-    const query = 'SELECT * FROM usuarios WHERE id = ?';
+    const query = 'SELECT * FROM usuarios WHERE id = ?';    
 
     db.query(query, [id], (err, results) => {
         if (err) {
