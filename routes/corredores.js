@@ -62,7 +62,7 @@ routes.put('/edit/corredor/:id', (req, res) => {
             return res.status(404).json({ error: 'Corredor não encontrado' });
         }
 
-        res.json({ message: 'Informações do corredor atualizadas com sucesso!' });
+        res.json({ message: 'Corredor atualizado com sucesso!' });
 
     });
 });

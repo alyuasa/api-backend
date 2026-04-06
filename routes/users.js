@@ -2,7 +2,7 @@ const express = require('express');
 const routes = express.Router();
 const db = require('../db');
 
-// create
+// create usuário
 routes.post('/create/usuario/', (req, res) => {
     const { nome, email, senha } = req.body;
     const query = 'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)';
@@ -63,6 +63,7 @@ routes.put('/edit/usuario/:id', (req, res) => {
         }
 
         res.json({ message: 'Usuário atualizado com sucesso!' });
+        
     });
 });
 
