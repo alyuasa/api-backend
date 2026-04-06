@@ -4,14 +4,14 @@ const db = require('../db');
 
 // create
 routes.post('/create/corredor/', (req, res) => {
-    const [nome, nacionalidade, equipe] = req.body;
-    const query = 'INSERT INTO corredores (nome, nacionalidade, equipe) VALUES (?, ?, ?)';
+    const [nome, turma] = req.body;
+    const query = 'INSERT INTO corredores (nome, turma) VALUES (?, ?, ?)';
 
-    db.query(query, [nome, nacionalidade, equipe], (err, results) => {
+    db.query(query, [nome, turma], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao adicionar corredor' });
         }
-        res.status(201).json({ id: results.insertId, nome, nacionalidade, equipe });
+        res.status(201).json({ id: results.insertId, nome, turma });
     });
 });
 
@@ -49,11 +49,11 @@ routes.get('/corredor/:id', (req, res) => {
 // update corredor
 routes.put('/edit/corredor/:id', (req, res) => {
     const { id } = req.params;
-    const { nome, nacionalidade, equipe } = req.body;
+    const { nome, turma } = req.body;
 
-    const query = 'UPDATE corredores SET nome = ?, nacionalidade = ?, equipe = ? WHERE id = ?';
+    const query = 'UPDATE corredores SET nome = ?, turma = ? WHERE id = ?';
 
-    db.query(query, [nome, nacionalidade, equipe], (err, results) => {
+    db.query(query, [nome, turma], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao atualizar informações' });
         }
