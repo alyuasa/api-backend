@@ -2,18 +2,8 @@ const express = require('express');
 const routes = express.Router();
 const db = require('../db');
 
-// read em todos os usuários
-routes.get('/', (req, res) => {
-    db.query('SELECT * FROM usuarios', (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Erro ao buscar usuários' });
-        }
-        res.json(results);
-    });
-});
-
 // create
-routes.post('/create', (req, res) => {
+routes.post('/create/usuario/', (req, res) => {
     const { nome, email, senha } = req.body;
     const query = 'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)';
 
@@ -26,8 +16,19 @@ routes.post('/create', (req, res) => {
 });
 
 
+// read em todos os usuários
+routes.get('/usuarios/', (req, res) => {
+    db.query('SELECT * FROM usuarios', (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erro ao buscar usuários' });
+        }
+        res.json(results);
+    });
+});
+
+
 // read usuário por id específico
-routes.get('/:id', (req, res) => {
+routes.get('/usuario/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM usuarios WHERE id = ?';
 
@@ -38,15 +39,15 @@ routes.get('/:id', (req, res) => {
             if (results.length === 0) {
                 res.status(404).json({ error: 'Usuário não encontrado' });
             } else {
-                res.status(201).json(results[0]);
+                res.status(200).json(results[0]);
             }
         }
     });
 });
 
 
-// update
-routes.put('/edit/:id', (req, res) => {
+// update usuário
+routes.put('/edit/usuario/:id', (req, res) => {
     const { id } = req.params;
     const { nome, email, senha } = req.body;
 
@@ -66,8 +67,8 @@ routes.put('/edit/:id', (req, res) => {
 });
 
 
-// delete
-routes.delete('/delete/:id', (req, res) => {
+// delete usuário
+routes.delete('/delete/usuario/:id', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM usuarios WHERE id = ?';
 
@@ -81,6 +82,7 @@ routes.delete('/delete/:id', (req, res) => {
         }
 
         res.json({ message: 'Usuário deletado com sucesso!' });
+
     });
 });
 
