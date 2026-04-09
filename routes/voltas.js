@@ -3,7 +3,7 @@ const routes = express.Router();
 const db = require('../db');
 
 // create volta
-routes.post('/create/volta/', (req, res) => {
+routes.post('/create', (req, res) => {
     const { tempo, data, corredores_id } = req.body;
     const query = 'INSERT INTO voltas (tempo, data, corredores_id) VALUES (?, ?, ?)';
 
@@ -17,7 +17,7 @@ routes.post('/create/volta/', (req, res) => {
 
 
 // read em todas as voltas
-routes.get('/voltas/', (req, res) => {
+routes.get('/all', (req, res) => {
     db.query('SELECT * FROM voltas', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao buscar voltas'});
@@ -28,7 +28,7 @@ routes.get('/voltas/', (req, res) => {
 
 
 // read volta específica
-routes.get('/volta/:id', (req, res) => {
+routes.get('/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM voltas WHERE id = ?';
 
@@ -46,7 +46,7 @@ routes.get('/volta/:id', (req, res) => {
 });
 
 // update volta
-routes.put('/edit/volta/:id', (req, res) => {
+routes.put('/:id/edit', (req, res) => {
     const { id } = req.params;
     const [ tempo, data, corredores_id ] = req.body;
 
@@ -68,7 +68,7 @@ routes.put('/edit/volta/:id', (req, res) => {
 
 
 // delete volta
-routes.delete('/delete/volta/:id', (req, res) => {
+routes.delete('/:id/delete', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM voltas WHERE id = ?';
 

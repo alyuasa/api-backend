@@ -3,7 +3,7 @@ const routes = express.Router();
 const db = require('../db');
 
 // create usuário
-routes.post('/create/usuario/', (req, res) => {
+routes.post('/create', (req, res) => {
     const { nome, email, senha } = req.body;
     const query = 'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)';
 
@@ -17,7 +17,7 @@ routes.post('/create/usuario/', (req, res) => {
 
 
 // read em todos os usuários
-routes.get('/usuarios/', (req, res) => {
+routes.get('/all', (req, res) => {
     db.query('SELECT * FROM usuarios', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao buscar usuários' });
@@ -28,7 +28,7 @@ routes.get('/usuarios/', (req, res) => {
 
 
 // read usuário por id específico
-routes.get('/usuario/:id', (req, res) => {
+routes.get('/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM usuarios WHERE id = ?';
 
@@ -47,7 +47,7 @@ routes.get('/usuario/:id', (req, res) => {
 
 
 // update usuário
-routes.put('/edit/usuario/:id', (req, res) => {
+routes.put('/:id/edit', (req, res) => {
     const { id } = req.params;
     const { nome, email, senha } = req.body;
 
@@ -69,7 +69,7 @@ routes.put('/edit/usuario/:id', (req, res) => {
 
 
 // delete usuário
-routes.delete('/delete/usuario/:id', (req, res) => {
+routes.delete('/:id/delete', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM usuarios WHERE id = ?';
 

@@ -3,7 +3,7 @@ const routes = express.Router();
 const db = require('../db');
 
 // create
-routes.post('/create/corredor/', (req, res) => {
+routes.post('/create', (req, res) => {
     const [nome, turma] = req.body;
     const query = 'INSERT INTO corredores (nome, turma) VALUES (?, ?, ?)';
 
@@ -17,7 +17,7 @@ routes.post('/create/corredor/', (req, res) => {
 
 
 // read em todos os corredores
-routes.get('/corredores/', (req, res) => {
+routes.get('/all', (req, res) => {
     db.query('SELECT * FROM corredores', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao buscar corredores'});
@@ -28,7 +28,7 @@ routes.get('/corredores/', (req, res) => {
 
 
 // read corredor (por id específico)
-routes.get('/corredor/:id', (req, res) => {
+routes.get('/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM corredores WHERE id = ?';
 
@@ -47,7 +47,7 @@ routes.get('/corredor/:id', (req, res) => {
 
 
 // update corredor
-routes.put('/edit/corredor/:id', (req, res) => {
+routes.put('/:id/edit', (req, res) => {
     const { id } = req.params;
     const { nome, turma } = req.body;
 
@@ -69,7 +69,7 @@ routes.put('/edit/corredor/:id', (req, res) => {
 
 
 // delete corredor
-routes.delete('/delete/corredor/:id', (req, res) => {
+routes.delete('/:id/delete', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM corredores WHERE id = ?';
 
