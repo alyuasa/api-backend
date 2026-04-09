@@ -21,6 +21,10 @@ routes.get('/all', (req, res) => {
     db.query('SELECT * FROM corredores', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao buscar corredores'});
+        } else {
+            if (results.length === 0) {
+                res.status(200).json({ message: 'Não há corredores cadastrados ainda'});
+            }
         }
         res.json(results);
     });
