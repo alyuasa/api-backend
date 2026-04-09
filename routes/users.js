@@ -49,9 +49,9 @@ routes.get('/:id', (req, res) => {
 // update usuário
 routes.put('/:id/edit', (req, res) => {
     const { id } = req.params;
-    const { nome, email, senha } = req.body;
+    const { nome, email } = req.body;
 
-    const query = 'UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?';
+    const query = 'UPDATE usuarios SET nome = ?, email = ? WHERE id = ?';
 
     db.query(query, [nome, email, id], (err, results) => {
         if (err) {
