@@ -18,7 +18,7 @@ routes.post('/create', (req, res) => {
 
 // read em todos os usuários
 routes.get('/all', (req, res) => {
-    db.query('SELECT * FROM usuarios', (err, results) => {
+    db.query('SELECT id, nome FROM usuarios', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao buscar usuários' });
         }
