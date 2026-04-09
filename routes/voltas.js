@@ -48,11 +48,11 @@ routes.get('/:id', (req, res) => {
 // update volta
 routes.put('/:id/edit', (req, res) => {
     const { id } = req.params;
-    const [ tempo, data, corredores_id ] = req.body;
+    const { tempo, data, corredores_id } = req.body;
 
     const query = 'UPDATE voltas SET tempo = ?, data = ?, corredores_id = ? WHERE id = ?';
 
-    db.query(query, [tempo, data, corredores_id], (err, results) => {
+    db.query(query, [tempo, data, corredores_id, id], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao atualizar volta' });
         } 
