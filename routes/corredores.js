@@ -57,7 +57,7 @@ routes.put('/:id/edit', (req, res) => {
 
     const query = 'UPDATE corredores SET nome = ?, turma = ? WHERE id = ?';
 
-    db.query(query, [id], (err, results) => {
+    db.query(query, [nome, turma, id], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao atualizar informações' });
         }
