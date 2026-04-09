@@ -4,7 +4,7 @@ const db = require('../db');
 
 // create
 routes.post('/create', (req, res) => {
-    const [nome, turma] = req.body;
+    const {nome, turma} = req.body;
     const query = 'INSERT INTO corredores (nome, turma) VALUES (?, ?)';
 
     db.query(query, [nome, turma], (err, results) => {
