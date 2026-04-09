@@ -27,8 +27,23 @@ routes.get('/voltas/', (req, res) => {
 });
 
 
-// read volta específica ?
+// read volta específica
+routes.get('/volta/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM voltas WHERE id = ?';
 
+    db.query(query, [id], (err, results) => { 
+        if (err) {
+            return res.status(500).json({ error: 'Erro ao buscar volta' });
+        } else {
+            if (results.length === 0) {
+                res.status(404).json({ error: 'Volta não encontrada' });
+            } else {
+                res.status(200).json(results[0]);
+            }
+        }
+    });
+});
 
 // update volta
 routes.put('/edit/volta/:id', (req, res) => {
