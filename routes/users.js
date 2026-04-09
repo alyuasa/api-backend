@@ -23,7 +23,7 @@ routes.get('/all', (req, res) => {
             return res.status(500).json({ error: 'Erro ao buscar usuários' });
         } else {
             if (results.length === 0) {
-                res.status(404).json({ message: 'Não há usuários cadastrados ainda' });
+                res.status(200).json({ message: 'Não há usuários cadastrados ainda' });
             }
         }
         res.json(results);
