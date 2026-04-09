@@ -21,6 +21,10 @@ routes.get('/all', (req, res) => {
     db.query('SELECT id, nome FROM usuarios', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao buscar usuários' });
+        } else {
+            if (results.length === 0) {
+                res.status(404).json({ message: 'Não há usuários cadastrados ainda' });
+            }
         }
         res.json(results);
     });
