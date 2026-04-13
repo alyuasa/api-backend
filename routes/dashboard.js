@@ -101,3 +101,5 @@ routes.get('/estatisticas/:id', (req, res) => {
 
     });
 });
+
+module.exports = routes;
